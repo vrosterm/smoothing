@@ -37,16 +37,16 @@ parser.add_argument('--weight-decay', '--wd', default=1e-4, type=float,
                     metavar='W', help='weight decay (default: 1e-4)')
 parser.add_argument('--noise_sd', default=0.0, type=float,
                     help="standard deviation of Gaussian noise for data augmentation")
-parser.add_argument('--gpu', default=None, type=str,
-                    help='id(s) for CUDA_VISIBLE_DEVICES')
+parser.add_argument('--cpu', default=None, type=str,
+                    help='id(s) for CPU_VISIBLE_DEVICES')
 parser.add_argument('--print-freq', default=10, type=int,
                     metavar='N', help='print frequency (default: 10)')
 args = parser.parse_args()
 
 
 def main():
-    if args.gpu:
-        os.environ['CUDA_VISIBLE_DEVICES'] = args.gpu
+    if args.cpu:
+        os.environ['CPU_VISIBLE_DEVICES'] = args.cpu
 
     if not os.path.exists(args.outdir):
         os.mkdir(args.outdir)
@@ -64,7 +64,7 @@ def main():
     logfilename = os.path.join(args.outdir, 'log.txt')
     init_logfile(logfilename, "epoch\ttime\tlr\ttrain loss\ttrain acc\ttestloss\ttest acc")
 
-    criterion = CrossEntropyLoss().cuda()
+    criterion = CrossEntropyLoss().cpu()
     optimizer = SGD(model.parameters(), lr=args.lr, momentum=args.momentum, weight_decay=args.weight_decay)
     scheduler = StepLR(optimizer, step_size=args.lr_step_size, gamma=args.gamma)
 
@@ -102,11 +102,11 @@ def train(loader: DataLoader, model: torch.nn.Module, criterion, optimizer: Opti
         # measure data loading time
         data_time.update(time.time() - end)
 
-        inputs = inputs.cuda()
-        targets = targets.cuda()
+        inputs = inputs.cpu()
+        targets = targets.cpu()
 
         # augment inputs with noise
-        inputs = inputs + torch.randn_like(inputs, device='cuda') * noise_sd
+        inputs = inputs + torch.randn_like(inputs, device='cpu') * noise_sd
 
         # compute output
         outputs = model(inputs)
@@ -156,11 +156,11 @@ def test(loader: DataLoader, model: torch.nn.Module, criterion, noise_sd: float)
             # measure data loading time
             data_time.update(time.time() - end)
 
-            inputs = inputs.cuda()
-            targets = targets.cuda()
+            inputs = inputs.cpu()
+            targets = targets.cpu()
 
             # augment inputs with noise
-            inputs = inputs + torch.randn_like(inputs, device='cuda') * noise_sd
+            inputs = inputs + torch.randn_like(inputs, device='cpu') * noise_sd
 
             # compute output
             outputs = model(inputs)

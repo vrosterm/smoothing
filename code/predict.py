@@ -46,7 +46,7 @@ if __name__ == "__main__":
             break
 
         (x, label) = dataset[i]
-        x = x.cuda()
+        x = x.cpu()
         before_time = time()
 
         # make the prediction

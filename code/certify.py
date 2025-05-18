@@ -50,7 +50,7 @@ if __name__ == "__main__":
 
         before_time = time()
         # certify the prediction of g around x
-        x = x.cuda()
+        x = x.cpu()
         prediction, radius = smoothed_classifier.certify(x, args.N0, args.N, args.alpha, args.batch)
         after_time = time()
         correct = int(prediction == label)
