@@ -25,10 +25,10 @@ python code/certify.py imagenet models/imagenet/resnet50/noise_0.25/checkpoint.p
 python code/certify.py imagenet models/imagenet/resnet50/noise_0.50/checkpoint.pth.tar 0.50 data/certify/imagenet/resnet50/noise_0.50/test/sigma_0.50 --skip 100 --batch 400
 python code/certify.py imagenet models/imagenet/resnet50/noise_1.00/checkpoint.pth.tar 1.00 data/certify/imagenet/resnet50/noise_1.00/test/sigma_1.00 --skip 100 --batch 400
 
-python code/certify.py cifar10 models/cifar10/resnet110/noise_0.12/checkpoint.pth.tar 0.25 data/predict/cifar10/resnet110/noise_0.12/test/sigma_0.12 --skip 20 --batch 400
-python code/certify.py cifar10 models/cifar10/resnet110/noise_0.25/checkpoint.pth.tar 0.25 data/predict/cifar10/resnet110/noise_0.25/test/sigma_0.25 --skip 20 --batch 400
-python code/certify.py cifar10 models/cifar10/resnet110/noise_0.50/checkpoint.pth.tar 0.50 data/predict/cifar10/resnet110/noise_0.50/test/sigma_0.50 --skip 20 --batch 400
-python code/certify.py cifar10 models/cifar10/resnet110/noise_1.00/checkpoint.pth.tar 1.00 data/predict/cifar10/resnet110/noise_1.00/test/sigma_1.00 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_0.12/checkpoint.pth.tar 0.12 data/certify/cifar10/resnet110/noise_0.12/test/sigma_0.12 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_0.25/checkpoint.pth.tar 0.25 data/certify/cifar10/resnet110/noise_0.25/test/sigma_0.25 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_0.50/checkpoint.pth.tar 0.50 data/certify/cifar10/resnet110/noise_0.50/test/sigma_0.50 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_1.00/checkpoint.pth.tar 1.00 data/certify/cifar10/resnet110/noise_1.00/test/sigma_1.00 --skip 20 --batch 400
 ```
 
 Then try to certify when the training and testing noise is mismatched:
@@ -36,10 +36,10 @@ Then try to certify when the training and testing noise is mismatched:
 python code/certify.py imagenet models/imagenet/resnet50/noise_0.25/checkpoint.pth.tar 0.50 data/certify/imagenet/resnet50/noise_0.25/test/sigma_0.50 --skip 100 --batch 400
 python code/certify.py imagenet models/imagenet/resnet50/noise_1.00/checkpoint.pth.tar 0.50 data/certify/imagenet/resnet50/noise_1.00/test/sigma_0.50 --skip 100 --batch 400
 
-python code/certify.py cifar10 models/cifar10/resnet110/noise_0.00/checkpoint.pth.tar 0.50 data/predict/cifar10/resnet110/noise_0.00/test/sigma_0.50 --skip 20 --batch 400
-python code/certify.py cifar10 models/cifar10/resnet110/noise_0.12/checkpoint.pth.tar 0.50 data/predict/cifar10/resnet110/noise_0.12/test/sigma_0.50 --skip 20 --batch 400
-python code/certify.py cifar10 models/cifar10/resnet110/noise_0.25/checkpoint.pth.tar 0.50 data/predict/cifar10/resnet110/noise_0.25/test/sigma_0.50 --skip 20 --batch 400
-python code/certify.py cifar10 models/cifar10/resnet110/noise_1.00/checkpoint.pth.tar 0.50 data/predict/cifar10/resnet110/noise_1.00/test/sigma_0.50 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_0.00/checkpoint.pth.tar 0.12 data/certify/cifar10/resnet110/noise_0.00/test/sigma_0.50 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_0.12/checkpoint.pth.tar 0.50 data/certify/cifar10/resnet110/noise_0.12/test/sigma_0.50 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_0.25/checkpoint.pth.tar 0.50 data/certify/cifar10/resnet110/noise_0.25/test/sigma_0.50 --skip 20 --batch 400
+python code/certify.py cifar10 models/cifar10/resnet110/noise_1.00/checkpoint.pth.tar 0.50 data/certify/cifar10/resnet110/noise_1.00/test/sigma_0.50 --skip 20 --batch 400
 ```
 
 Prediction experiments on ImageNet:
