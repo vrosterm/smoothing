@@ -1,7 +1,7 @@
 # evaluate a smoothed classifier on a dataset
 import argparse
 import os
-import setGPU
+# import setGPU
 from datasets import get_dataset, DATASETS, get_num_classes
 from core import Smooth
 from time import time
@@ -25,7 +25,7 @@ args = parser.parse_args()
 
 if __name__ == "__main__":
     # load the base classifier
-    checkpoint = torch.load(args.base_classifier)
+    checkpoint = torch.load(args.base_classifier, map_location=torch.device('cpu'))
     base_classifier = get_architecture(checkpoint["arch"], args.dataset)
     base_classifier.load_state_dict(checkpoint['state_dict'])
 
@@ -35,7 +35,8 @@ if __name__ == "__main__":
     # prepare output file
     f = open(args.outfile, 'w')
     print("idx\tlabel\tpredict\tradius\tcorrect\ttime", file=f, flush=True)
-
+    # DEFINE MEANS AND VARS HERE, FEED TO smoothed_classifier
+    # MODIFY Smooth IN core.py
     # iterate through the dataset
     dataset = get_dataset(args.dataset, args.split)
     for i in range(len(dataset)):

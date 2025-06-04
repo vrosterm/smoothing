@@ -1,7 +1,7 @@
 """ This script loads a base classifier and then runs PREDICT on many examples from a dataset.
 """
 import argparse
-import setGPU
+#import setGPU
 from datasets import get_dataset, DATASETS, get_num_classes
 from core import Smooth
 from time import time
@@ -24,7 +24,7 @@ args = parser.parse_args()
 
 if __name__ == "__main__":
     # load the base classifier
-    checkpoint = torch.load(args.base_classifier)
+    checkpoint = torch.load(args.base_classifier, map_location=torch.device('cpu'))
     base_classifier = get_architecture(checkpoint["arch"], args.dataset)
     base_classifier.load_state_dict(checkpoint['state_dict'])
 

@@ -1,5 +1,5 @@
 import torch
-from scipy.stats import norm, binom_test
+from scipy.stats import norm, binomtest
 import numpy as np
 from math import ceil
 from statsmodels.stats.proportion import proportion_confint
@@ -68,7 +68,7 @@ class Smooth(object):
         top2 = counts.argsort()[::-1][:2]
         count1 = counts[top2[0]]
         count2 = counts[top2[1]]
-        if binom_test(count1, count1 + count2, p=0.5) > alpha:
+        if binomtest(count1, count1 + count2, p=0.5) > alpha:
             return Smooth.ABSTAIN
         else:
             return top2[0]
@@ -81,6 +81,10 @@ class Smooth(object):
         :param batch_size:
         :return: an ndarray[int] of length num_classes containing the per-class counts
         """
+        """
+        - ADD TUPLES FOR RANDOM MEANS AND VARS
+        - LOOK AT CERTIFY.PY TO CREATE THEM USING SAMPLE NOISE
+        """
         with torch.no_grad():
             counts = np.zeros(self.num_classes, dtype=int)
             for _ in range(ceil(num / batch_size)):
@@ -88,7 +92,7 @@ class Smooth(object):
                 num -= this_batch_size
 
                 batch = x.repeat((this_batch_size, 1, 1, 1))
-                noise = torch.randn_like(batch, device='cpu') * self.sigma
+                noise = torch.randn_like(batch, device='cpu') * self.sigma #ADD MIXED GAUSSIAN NOISE HERE, WANT SAME MEANS/VARS FOR EACH PT
                 predictions = self.base_classifier(batch + noise).argmax(1)
                 counts += self._count_arr(predictions.cpu().numpy(), self.num_classes)
             return counts

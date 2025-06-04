@@ -20,7 +20,6 @@ def get_dataset(dataset: str, split: str) -> Dataset:
     elif dataset == "cifar10":
         return _cifar10(split)
 
-
 def get_num_classes(dataset: str):
     """Return the number of classes in the dataset. """
     if dataset == "imagenet":
