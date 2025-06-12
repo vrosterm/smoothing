@@ -37,9 +37,8 @@ if __name__ == "__main__":
 
     #collecting random K means
     mu_batch = x0.repeat((args.K,1,1,1))
-    print(mu_batch[0].size())
     mu_set = torch.randn_like(mu_batch, device='cpu') 
-    sig_set = np.random.uniform(low = 0, high = args.sigma, size=args.K)
+    sig_set = np.arange(args.sigma/2, args.sigma, args.K) # np.random.uniform(low = 0, high = args.sigma, size=args.K)
     # create the smooothed classifier g
     smoothed_classifier = Smooth(base_classifier, get_num_classes(args.dataset), args.sigma, mu_set, sig_set)
 

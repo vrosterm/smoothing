@@ -3,6 +3,7 @@ from scipy.stats import norm, binomtest
 import numpy as np
 from math import ceil
 from statsmodels.stats.proportion import proportion_confint
+import math
 
 
 class Smooth(object):
@@ -94,13 +95,13 @@ class Smooth(object):
                 num -= this_batch_size
 
                 batch = x.repeat((this_batch_size, 1, 1, 1))
-                E = torch.empty(x.size()).repeat((this_batch_size, 1, 1, 1))
+                E = torch.empty(batch.size())
+                lda = len(self.mu_set)
                 for i in range(len(self.sig_set)):
-                    E[i,:] = self.sig_set[i] * torch.randn_like(batch, device='cpu') + self.mu_set[i]
+                    E += (self.sig_set[i] * torch.randn_like(batch, device='cpu') + self.mu_set[i])
                 # noise = torch.randn_like(batch, device='cpu') * self.sigma #ADD MIXED GAUSSIAN NOISE HERE, WANT SAME MEANS/VARS FOR EACH PT
-                lda = torch.ones(len(self.sig_set)) / self.sig_set
-                noise = torch.matmul(E,lda)
-                predictions = self.base_classifier(batch + noise).argmax(1)
+                E = E / lda
+                predictions = self.base_classifier(batch + E).argmax(1)
                 counts += self._count_arr(predictions.cpu().numpy(), self.num_classes)
             return counts
 
